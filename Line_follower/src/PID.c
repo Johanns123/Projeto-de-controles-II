@@ -11,9 +11,9 @@ int16_t filtro_derivativo(int16_t derivacao);
 
 char *string;
 
-float kp_ang = {11.0},    // aumentar se o robô não estiver fazendo curva
-      ki_ang = {0.000004},// aumentar se o robô estiver oscilando muito
-      kd_ang = {0.0004};  // aumentar se na passagem de reta para curva e vice-versay o robô balançar muito
+float kp_ang = {2.0},    // aumentar se o robô não estiver fazendo curva
+      ki_ang = {0.000000},// aumentar se o robô estiver oscilando muito
+      kd_ang = {0.0000};  // aumentar se na passagem de reta para curva e vice-versay o robô balançar muito
 
 float kp_line = {50},
       kd_line = {0.00000},

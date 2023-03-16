@@ -26,7 +26,7 @@ void control_direction(void)
 
     //volta_pra_pista(sensores_frontais.posicao_media());
     posicao_media_sensores_frotais = obter_posicao_media();
-    fora_da_pista();
+    //fora_da_pista();
 
     calcular_variavel_de_controle_rotacional();
 
@@ -74,17 +74,6 @@ void atualizar_rotacao_dos_motores(void)
     variable.PWM_left    = variable.PWM_front_motors - u_w;  // Saida do controle rotacional corrigindo o PWM em questão
     calc_pwm_limit(&variable);
     
-    if(variable.PWM_right < 0)
-    {        
-        motor_giro_direita();
-    }
-
-    if(variable.PWM_left < 0)
-    {
-        motor_giro_esquerda();
-    }
-
-
     motor_alterar_velocidade_dir(variable.PWM_right);
     motor_alterar_velocidade_esq(variable.PWM_left);
 }

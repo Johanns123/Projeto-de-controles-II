@@ -8,15 +8,15 @@
 #define NUM_SENSORES 2
 
 // VALORES OBTIDOS NA CALIBRAÇÃO DOS SENSORES
-#define VALOR_MAX 224
-#define VALOR_MIN 15
+#define VALOR_MAX 1
+#define VALOR_MIN 0
 
 extern int8_t buffer[20];
 static uint8_t sensores[NUM_SENSORES];
 static uint8_t sensores_normalizados[NUM_SENSORES];
 bool stop = 0;
 
-extern uint8_t sensores_de_tensao[2];
+uint8_t sensores_de_tensao[2];
 
 int16_t obter_posicao_media(void) {
     int16_t numerador = 0;
@@ -28,10 +28,10 @@ int16_t obter_posicao_media(void) {
         sensores_normalizados[i] = VALOR_MAX - sensores[i];
         numerador += sensores_normalizados[i] * posicoes[i];
         denominador += sensores_normalizados[i];  
-        //sprintf(buffer, "%d\t", sensores[i]); //ver o peso dos sensores
-        //uart.enviar_string(buffer);      
+        //sprintf((char *)buffer, "%d\t", sensores_normalizados[i]); //ver o peso dos sensores
+        //usart0_send_string((uint8_t *)buffer);      
     }
-    //uart.enviar_caractere('\n');
+    //usart0_send_char('\n');
     
 
     if(!denominador)
@@ -51,13 +51,15 @@ int16_t obter_posicao_media(void) {
 
 
 void atualizar_leitura(void) {
+    sensores_de_tensao[0] = PINC & (1<<2);
+    sensores_de_tensao[1] = PINC & (1<<1);
     //======Estabelece o limiar da leitura dos sensores====//
     //função de correção da calibração
     uint8_t valor_lido;
 
     for (int i = 0; i < NUM_SENSORES; i++)
     {
-        valor_lido = _valor_lido(i);
+        valor_lido = sensores_de_tensao[i];
                 
         if (valor_lido < VALOR_MIN)
             sensores[i] = VALOR_MIN;        

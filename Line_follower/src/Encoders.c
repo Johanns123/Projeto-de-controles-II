@@ -1,13 +1,10 @@
 #include "Encoders.h"
 #include "usart0.h"
+#include <stdio.h>
 
-#define LARGURA_DO_ROBO 1.20 //dm
-#define RAIO_RODA    14.5 //mm
+#define LARGURA_DO_ROBO 1.51 //dm
+#define RAIO_RODA    32.5 //mm
 
-#define CANAL_A_DIRETO       (1<<PD2)
-#define CANAL_B_DIRETO       (1<<PD5)
-#define CANAL_A_ESQUERDO     (1<<PD3)
-#define CANAL_B_ESQUERDO     (1<<PD6)
 
 static uint16_t pulsos_encoder_esquerdo = 0;
 
@@ -17,19 +14,9 @@ uint16_t obter_pulsos_encoder_esquerdo(void)
 }
 
 static void contar_pulsos_encoder_esquerdo(void) {
-    static bool canal_A_anterior = false;
-    static bool canal_A_atual = false, canal_B_atual = false;
     
-    canal_A_atual = PIND & CANAL_A_ESQUERDO;
-    if (canal_A_atual != canal_A_anterior) {
-      canal_B_atual = PIND & CANAL_B_ESQUERDO;
-      if (canal_B_atual != canal_A_atual)
-        pulsos_encoder_esquerdo++; // sentido horario
-      else
-        pulsos_encoder_esquerdo--;  
-    }
-    
-    canal_A_anterior = canal_A_atual;
+    pulsos_encoder_esquerdo++; // sentido horario
+
 }
 
 static uint16_t pulsos_encoder_direito = 0;
@@ -40,19 +27,8 @@ uint16_t obter_pulsos_encoder_direito(void)
 }
 
 static void contar_pulsos_encoder_direito(void) {
-    static bool canal_A_anterior = false;
-    static bool canal_A_atual = false, canal_B_atual = false;
-    
-    canal_A_atual = PIND & CANAL_A_DIRETO;
-    if (canal_A_atual != canal_A_anterior) {
-      canal_B_atual = PIND & CANAL_B_DIRETO;
-      if (canal_B_atual != canal_A_atual) 
-        pulsos_encoder_direito++;
-      else
-        pulsos_encoder_direito--;  // sentido anti-horario
-    }
-    
-    canal_A_anterior = canal_A_atual;
+
+    pulsos_encoder_direito++;
 }
 
 ISR(INT0_vect)
@@ -66,7 +42,7 @@ ISR(INT1_vect)
 }
 
 //const float conversao = 1.765;
-const float conversao = 1.54;   //rotacao/pulsos -> 29*pi/60pulsos
+const float conversao = 10.205;   //rotacao/pulsos -> 65*pi/20pulsos
 const float conv_segundos = 500.0;  //quando a base de tempo é de 2ms
 
 extern int8_t buffer[20];
@@ -115,8 +91,8 @@ static int16_t calcular_velocidade_roda_esquerda(void) {
         pulso_atualL = 0x00;
     }
 
-    //sprintf(buffer, "%d\n", (int)(vel));
-    //uart.enviar_string(buffer);
+    //sprintf((char *)buffer, "%d\n", (int)(vel));
+    //usart0_send_string((uint8_t *)buffer);
 
     return vel;
 }

@@ -6,7 +6,7 @@
 #include <avr/interrupt.h>
 #include "motores.h"
 #include "Encoders.h"
-#include "ADC_state_machine.h"
+//#include "ADC_state_machine.h"
 #include "IR_sensors.h"
 #include "controlar_direcao.h"
 /*  13 - BIN1 --BIN2 eh automaticamente invertido
@@ -168,8 +168,9 @@ void setup()
   setup_variaveis();
   external_interrupt_init();
   setup_timer0_interrupt();
-  adc_setup();
-  tratar_leitura_do_ADC();
+  //adc_setup();
+  usart0_config(1, 57600);
+  //tratar_leitura_do_ADC();
   start_timing = 1;
   sei();
 }
@@ -180,23 +181,23 @@ void loop()
   //velocidades_t velocidade;
   //velocidade = _calcular_velocidades_do_robo();
   //int w = velocidade.angular;
-  /*motor_frente();
-  motor_alterar_velocidade_dir(128);
-  motor_alterar_velocidade_esq(128);
-  _delay_ms(500);
-  motor_tras();
-  _delay_ms(500);
-  motor_giro_esquerda();
-  _delay_ms(500);
-  motor_giro_direita();
-  _delay_ms(500);
-  motor_off();
-  _delay_ms(500);*/
+  //motor_frente();
+  //motor_alterar_velocidade_dir(128);
+  //motor_alterar_velocidade_esq(128);
+  //_delay_ms(500);
+  //motor_tras();
+  //_delay_ms(500);
+  //motor_giro_esquerda();
+  //_delay_ms(500);
+  //motor_giro_direita();
+  //_delay_ms(500);
+  //motor_off();
+  //_delay_ms(500);
 }
 
 void external_interrupt_init(void)
 {
-  EICRA |= (1<<ISC10) | (1<<ISC00); //qualquer mudanca de estado
+  EICRA |= 0x0A; //qualquer mudanca de estado
   EIMSK = 3;  //habilito as duas interrupcoes
 }
 
@@ -204,10 +205,10 @@ void setup_hardware(void)
 {
   MCUCR &= 0xef;      //habilita pull up quando configurado e desabilita algumas configuracoes previas do MCU
 
-  DDRD &= ~((1<<PD2) | (1<<PD3) | (1<<PD5) | (1<<PD6)); //definicao dos pinos do encoder
+  DDRD &= ~((1<<PD2) | (1<<PD3)); //definicao dos pinos do encoder
   PORTD = 0x00;
 
-  DDRC &= ~((1<<PC0) | (1<<PC1)); //pinos do IR sensor
+  DDRC &= ~((1<<PC2) | (1<<PC1)); //pinos do IR sensor
   PORTC = 0x00;  
 }
 
@@ -292,9 +293,9 @@ void system_feedback_monitoring()
     //sprintf(buffer, "%d\n", setpoint);
     //uart.enviar_string(buffer);   
 
-    //sprintf(buffer, "%d\t%d\n", encoder_direito.obter_pulsos(), encoder_esquerdo.obter_pulsos());
+    //sprintf((char *)buffer, "%d\t%d\n", obter_pulsos_encoder_direito(), obter_pulsos_encoder_esquerdo());
     //sprintf(buffer, "%d\n", velocidades.linear);
-    //uart.enviar_string(buffer);    
+    //usart0_send_string((uint8_t *)buffer);    
 }
 
 void enviar_tempo(void)

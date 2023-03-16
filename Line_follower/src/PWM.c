@@ -35,14 +35,14 @@ void calc_pwm_limit(bits_field *motors)
   if (motors->PWM_right < -255)
   {
     ExcessoB = (abs(motors->PWM_right) - 255);
-    motors->PWM_right = 255;
+    motors->PWM_right = 0;
     motors->PWM_left += ExcessoB;
   }
 
   else if (motors->PWM_left < -255)
   {
     ExcessoA = (abs(motors->PWM_left) - 255);
-    motors->PWM_left = 255;
+    motors->PWM_left = 0;
     motors->PWM_right += ExcessoA;
   }
 }

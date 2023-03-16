@@ -43,5 +43,5 @@ void tratar_leitura_do_ADC(void)
 
 
 ISR(ADC_vect) {
-    tratar_leitura_do_ADC();
+  tratar_leitura_do_ADC();
 }
