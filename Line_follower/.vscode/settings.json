@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "ir_sensors.h": "c",
+        "interrupt.h": "c",
+        "stdint.h": "c",
+        "bits_field.h": "c",
+        "gerenciadordetrajeto.h": "c",
+        "uart.h": "c",
+        "encoders.h": "c",
+        "stdbool.h": "c",
+        "io.h": "c",
+        "adc_state_machine.h": "c",
+        "adc.h": "c",
+        "usart0.h": "c",
+        "motores.h": "c",
+        "pid.h": "c",
+        "pwm.h": "c",
+        "controlar_direcao.h": "c"
+    }
+}
