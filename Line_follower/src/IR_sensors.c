@@ -14,6 +14,8 @@
 extern int8_t buffer[20];
 static uint8_t sensores[NUM_SENSORES];
 static uint8_t sensores_normalizados[NUM_SENSORES];
+uint8_t valor_lido;
+
 bool stop = 0;
 
 uint8_t sensores_de_tensao[2];
@@ -44,8 +46,8 @@ int16_t obter_posicao_media(void) {
         posicao_media = numerador / denominador;
         stop = 0;
     }
-    //sprintf((char *)buffer, "%d\n", posicao_media);
-    //usart0_send_string((uint8_t *)buffer);
+    // sprintf((char *)buffer, "%d\n", posicao_media);
+    // usart0_send_string((uint8_t *)buffer);
     return posicao_media;
 }
 
@@ -55,7 +57,7 @@ void atualizar_leitura(void) {
     sensores_de_tensao[1] = PINC & (1<<1);
     //======Estabelece o limiar da leitura dos sensores====//
     //função de correção da calibração
-    uint8_t valor_lido;
+    //uint8_t valor_lido;
 
     for (int i = 0; i < NUM_SENSORES; i++)
     {

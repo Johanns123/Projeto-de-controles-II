@@ -15,7 +15,7 @@ void motor_init(void)
 }
 
 
-void motor_frente(void)
+void motor_tras(void)
 {
   MOTORS_PORT |= MOTOR_DIR_CHN | MOTOR_ESQ_CHN;
 }
@@ -31,7 +31,7 @@ void motor_giro_esquerda(void)
   MOTORS_PORT |= MOTOR_DIR_CHN;
   MOTORS_PORT &= ~(MOTOR_ESQ_CHN);
 }
-void motor_tras(void)
+void motor_frente(void)
 {
   MOTORS_PORT &= ~(MOTOR_DIR_CHN | MOTOR_ESQ_CHN);
 }

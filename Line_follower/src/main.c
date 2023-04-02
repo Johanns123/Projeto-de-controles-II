@@ -140,8 +140,8 @@ void f_timer3(void)
 
 void f_timer4(void)//a cada 2ms -> sujeito a alteracao de acordo com a inércia dos motores
 {
-    //sprintf(buffer, "%d\t%d\n", velocidade_filtrada_linear, velocidades.linear);
-    //uart.enviar_string(buffer);
+    //sprintf(buffer, "%d\t%d\n", velocidades.angular, velocidades.linear);
+    //usart0_send_string(buffer);
     velocidades = _calcular_velocidades_do_robo();
     velocidade_filtrada_angular = filtro_media_motores_angular();
     control_direction();
@@ -233,7 +233,7 @@ void setup_variaveis(void)
     
     setup_pwm_e_duty_cycle();
     //estado_da_operacao.modo = MAPEAMENTO;
-    variable.PWM_front_motors = 80;//get_pwm(20);//get_pwm(35);
+    variable.PWM_front_motors = 100;//get_pwm(20);//get_pwm(35);
 }
 int16_t filtro_media_motores_angular(void)
 {
